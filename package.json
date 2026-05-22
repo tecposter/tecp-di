@@ -1,6 +1,6 @@
 {
   "name": "@tecp/di",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "keywords": [],
   "author": "",
@@ -20,7 +20,7 @@
     "typescript": "6.0.3"
   },
   "scripts": {
-    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -p tsconfig.build.json",
+    "build": "rm -rf dist tsconfig.build.tsbuildinfo && tsc -p tsconfig.build.json",
     "test": "node --import tsx --test \"./**/*.test.ts\"",
     "prepublishOnly": "pnpm run build"
   },
