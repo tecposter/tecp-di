@@ -9,8 +9,12 @@
     "noEmit": false,
     "rootDir": "src",
     "outDir": "dist",
-    "lib": ["ES2023"],
-    "types": ["node"],
+    "lib": [
+      "ES2023"
+    ],
+    "types": [
+      "node"
+    ],
     "strict": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
@@ -19,6 +23,5 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
-  },
-  "exclude": ["**/*.test.ts"]
+  }
 }

@@ -20,7 +20,7 @@
     "typescript": "6.0.3"
   },
   "scripts": {
-    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -p tsconfig.build.json",
     "test": "node --import tsx --test \"./**/*.test.ts\"",
     "prepublishOnly": "pnpm run build"
   },
