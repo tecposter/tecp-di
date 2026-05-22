@@ -1,11 +1,11 @@
-# @tec/di
+# @tecp/di
 
 A lightweight, zero-dependency Dependency Injection container for TypeScript.
 
 ## Install
 
 ```bash
-pnpm add @tec/di
+pnpm add @tecp/di
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ pnpm add @tec/di
 ### Decorator registration
 
 ```ts
-import { di, singleton, transient } from '@tec/di';
+import { di, singleton, transient } from '@tecp/di';
 
 @singleton()
 class DbService {
@@ -39,7 +39,7 @@ console.log(c === d); // false
 ### Manual registration
 
 ```ts
-import { di, regSingleton, regTransient } from '@tec/di';
+import { di, regSingleton, regTransient } from '@tecp/di';
 
 class Logger {
   log(msg: string) {
@@ -56,7 +56,7 @@ console.log(l1 === l2); // true
 ### Value and factory providers
 
 ```ts
-import { di, regSingleton, regTransient } from '@tec/di';
+import { di, regSingleton, regTransient } from '@tecp/di';
 
 const CONFIG = Symbol('config');
 
@@ -73,7 +73,7 @@ console.log(di(COUNTER)); // 2
 ### Testing
 
 ```ts
-import { di, regSingleton, clearRegistry } from '@tec/di';
+import { di, regSingleton, clearRegistry } from '@tecp/di';
 
 clearRegistry(); // reset all registrations
 ```
