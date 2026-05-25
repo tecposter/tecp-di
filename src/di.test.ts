@@ -29,6 +29,30 @@ describe('@singleton() decorator', () => {
     assert.strictEqual(a.id, b.id);
   });
 
+  it('should set args via di', () => {
+    @singleton()
+    class ServiceA {
+      x = 1;
+    }
+
+    @singleton()
+    class ServiceB {
+      y = 2;
+    }
+
+    @singleton()
+    class ServiceC {
+      z: number;
+
+      constructor(a = di(ServiceA), b = di(ServiceB)) {
+        this.z = a.x + b.y;
+      }
+    }
+
+    const c = di(ServiceC);
+    assert.strictEqual(c.z, 3);
+  });
+
   it('should return different instances for different singleton classes', () => {
     @singleton()
     class ServiceA {}

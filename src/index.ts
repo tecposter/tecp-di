@@ -1,4 +1,4 @@
-export type Constructor<T = unknown> = new (...args: unknown[]) => T;
+export type Constructor<T = unknown> = new (...args: any[]) => T;
 export type Token<T = unknown> = symbol | Constructor<T>;
 
 export interface FullProvider<T = unknown> {
@@ -25,13 +25,13 @@ const regFull = <T>(provider: FullProvider<T>): Token<T> => {
 };
 
 export const toFullProvider = <T>(item: Provider<T>): FullProvider<T> =>
-  isFullProvider(item) ? item : { token: item, useClass: item };
+  isFullProvider(item) ? item : {token: item, useClass: item};
 
 export const regSingleton = <T>(item: Provider<T>) =>
-  regFull({ ...toFullProvider(item), isSingleton: true });
+  regFull({...toFullProvider(item), isSingleton: true});
 
 export const regTransient = <T>(item: Provider<T>) =>
-  regFull({ ...toFullProvider(item), isSingleton: false });
+  regFull({...toFullProvider(item), isSingleton: false});
 
 export const di = <T>(token: Token<T>): T => {
   const existing = SINGLETONS.get(token as Token<unknown>);
@@ -61,14 +61,15 @@ export const di = <T>(token: Token<T>): T => {
   return instance as T;
 };
 
-
-export const singleton = <T extends Constructor>() =>
+export const singleton =
+  <T extends Constructor>() =>
   (target: T): T => {
     regSingleton(target);
     return target;
   };
 
-export const transient = <T extends Constructor>() =>
+export const transient =
+  <T extends Constructor>() =>
   (target: T): T => {
     regTransient(target);
     return target;
