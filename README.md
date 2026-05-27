@@ -78,15 +78,50 @@ import { di, regSingleton, clearRegistry } from '@tecp/di';
 clearRegistry(); // reset all registrations
 ```
 
+## DiContainer
+
+The top-level functions (`di`, `regSingleton`, etc.) operate on a global singleton instance of `DiContainer`. For isolated scopes (e.g. testing, multi-tenant), create your own instance:
+
+```ts
+import { DiContainer } from '@tecp/di/container';
+
+const container = new DiContainer();
+
+container.regSingleton(Logger);
+const logger = container.get(Logger);
+```
+
+```ts
+import { DiContainer } from '@tecp/di/container';
+
+const container = new DiContainer();
+
+container.regSingleton({ token: CONFIG, useValue: { db: 'sqlite' } });
+container.regTransient(MyController);
+
+const cfg = container.get(CONFIG);
+const ctrl = container.get(MyController);
+```
+
+### Instance methods
+
+| Method | Description |
+|---|---|
+| `reg(provider)` | Register a `FullProvider`; returns the token |
+| `regSingleton(provider)` | Register a singleton provider |
+| `regTransient(provider)` | Register a transient provider |
+| `get(token)` | Resolve a token to its instance |
+| `clear()` | Reset all registrations and cached singletons |
+
 ## API
 
 | Function | Description |
 |---|---|
-| `regSingleton(provider)` | Register a singleton provider |
-| `regTransient(provider)` | Register a transient provider |
-| `di(token)` | Resolve a token to its instance |
-| `singleton()` | Decorator — registers class as singleton |
-| `transient()` | Decorator — registers class as transient |
-| `clearRegistry()` | Reset all registrations |
+| `regSingleton(provider)` | Register a singleton provider on the global container |
+| `regTransient(provider)` | Register a transient provider on the global container |
+| `di(token)` | Resolve a token to its instance from the global container |
+| `singleton()` | Decorator — registers class as singleton on the global container |
+| `transient()` | Decorator — registers class as transient on the global container |
+| `clearRegistry()` | Reset all registrations on the global container |
 
 A provider can be a class constructor or a `FullProvider` object with `token`, `useClass`, `useValue`, `useFactory`, and `isSingleton` fields.
