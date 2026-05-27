@@ -1,9 +1,13 @@
 {
   "name": "@tecp/di",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "keywords": [],
-  "author": "",
+  "author": "zhanjh <zhanjh@126.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tecposter/tecp-di"
+  },
   "license": "ISC",
   "devEngines": {
     "packageManager": {
@@ -30,7 +34,12 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./container": {
+      "types": "./dist/container.d.ts",
+      "import": "./dist/container.js",
+      "default": "./dist/container.js"
+    }
   },
   "files": [
     "dist"
