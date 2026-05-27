@@ -9,7 +9,7 @@ import {
   regTransient,
   singleton,
   transient,
-} from './';
+} from './di';
 
 // Reset the registry before each test to avoid cross-test pollution
 beforeEach(() => {
