@@ -1,6 +1,6 @@
 {
   "name": "@tecp/di",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "A lightweight, zero-dependency Dependency Injection container for TypeScript.",
   "keywords": [
     "DI",
@@ -48,6 +48,11 @@
       "types": "./dist/container.d.ts",
       "import": "./dist/container.js",
       "default": "./dist/container.js"
+    },
+    "./common": {
+      "types": "./dist/common.d.ts",
+      "import": "./dist/common.js",
+      "default": "./dist/common.js"
     }
   },
   "files": [
