@@ -1,6 +1,6 @@
 import assert from 'node:assert';
-import { beforeEach, describe, it } from 'node:test';
-import { DiContainer } from './container';
+import {beforeEach, describe, it} from 'node:test';
+import {DiContainer} from './container';
 
 let container: DiContainer;
 
@@ -12,22 +12,35 @@ describe('DiContainer', () => {
   describe('reg()', () => {
     it('should register a useClass provider and return its token', () => {
       class MyService {}
-      const token = container.reg({ token: MyService, useClass: MyService, isSingleton: true });
+      const token = container.reg({
+        token: MyService,
+        useClass: MyService,
+        isSingleton: true,
+      });
       assert.strictEqual(token, MyService);
+      assert.strictEqual(container.has(MyService), true);
       const instance = container.get(MyService);
       assert.ok(instance instanceof MyService);
     });
 
     it('should register a useValue provider', () => {
       const TOKEN = Symbol('value');
-      const token = container.reg({ token: TOKEN, useValue: 42, isSingleton: true });
+      const token = container.reg({
+        token: TOKEN,
+        useValue: 42,
+        isSingleton: true,
+      });
       assert.strictEqual(token, TOKEN);
       assert.strictEqual(container.get(TOKEN), 42);
     });
 
     it('should register a useFactory provider', () => {
       const TOKEN = Symbol('factory');
-      const token = container.reg({ token: TOKEN, useFactory: () => 'from factory', isSingleton: true });
+      const token = container.reg({
+        token: TOKEN,
+        useFactory: () => 'from factory',
+        isSingleton: true,
+      });
       assert.strictEqual(token, TOKEN);
       assert.strictEqual(container.get(TOKEN), 'from factory');
     });
@@ -49,7 +62,7 @@ describe('DiContainer', () => {
     it('should work with FullProvider object using useClass', () => {
       class MyService {}
       const TOKEN = Symbol('singleton');
-      container.regSingleton({ token: TOKEN, useClass: MyService });
+      container.regSingleton({token: TOKEN, useClass: MyService});
 
       const a = container.get(TOKEN);
       const b = container.get(TOKEN);
@@ -59,15 +72,15 @@ describe('DiContainer', () => {
 
     it('should work with FullProvider using useValue', () => {
       const TOKEN = Symbol('value');
-      container.regSingleton({ token: TOKEN, useValue: { x: 1 } });
+      container.regSingleton({token: TOKEN, useValue: {x: 1}});
 
-      assert.deepStrictEqual(container.get(TOKEN), { x: 1 });
+      assert.deepStrictEqual(container.get(TOKEN), {x: 1});
     });
 
     it('should work with FullProvider using useFactory', () => {
       let callCount = 0;
       const TOKEN = Symbol('factory');
-      container.regSingleton({ token: TOKEN, useFactory: () => ++callCount });
+      container.regSingleton({token: TOKEN, useFactory: () => ++callCount});
 
       assert.strictEqual(container.get(TOKEN), 1);
       assert.strictEqual(container.get(TOKEN), 1);
@@ -103,7 +116,9 @@ describe('DiContainer', () => {
     it('should call useFactory each time for transient', () => {
       let callCount = 0;
       const TOKEN = Symbol('transient-factory');
-      container.regTransient({ token: TOKEN, useFactory: () => ++callCount });
+      container.regTransient({token: TOKEN, useFactory: () => ++callCount});
+
+      assert.strictEqual(container.has(TOKEN), true);
 
       assert.strictEqual(container.get(TOKEN), 1);
       assert.strictEqual(container.get(TOKEN), 2);
@@ -124,7 +139,7 @@ describe('DiContainer', () => {
 
     it('should throw for invalid provider without useValue, useClass, or useFactory', () => {
       const TOKEN = Symbol('invalid');
-      container.reg({ token: TOKEN, isSingleton: true } as any);
+      container.reg({token: TOKEN, isSingleton: true});
       assert.throws(() => container.get(TOKEN), /Invalid provider/);
     });
   });
@@ -136,6 +151,8 @@ describe('DiContainer', () => {
 
       container.regSingleton(ServiceA);
       container.regSingleton(ServiceB);
+      assert.strictEqual(container.has(ServiceA), true);
+      assert.strictEqual(container.has(ServiceB), true);
 
       const a = container.get(ServiceA);
       const b = container.get(ServiceB);
@@ -149,8 +166,8 @@ describe('DiContainer', () => {
       const TOKEN_A = Symbol('singleton');
       const TOKEN_B = Symbol('transient');
 
-      container.regSingleton({ token: TOKEN_A, useClass: MyService });
-      container.regTransient({ token: TOKEN_B, useClass: MyService });
+      container.regSingleton({token: TOKEN_A, useClass: MyService});
+      container.regTransient({token: TOKEN_B, useClass: MyService});
 
       const a1 = container.get(TOKEN_A);
       const a2 = container.get(TOKEN_A);

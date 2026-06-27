@@ -22,6 +22,10 @@ export class DiContainer {
     return this.reg({...toFullProvider(item), isSingleton: false});
   }
 
+  has<T = unknown>(token: Token<T>): boolean {
+    return this.registry.has(token);
+  }
+
   get<T>(token: Token<T>): T {
     const existing = this.singletons.get(token as Token<unknown>);
     if (existing) {
